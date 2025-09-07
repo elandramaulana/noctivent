@@ -1,26 +1,18 @@
-[
-  { "date": "Sat, 30/8/25", "hour": "00.00", "Tin": 26, "Hin": 82, "Tout": 25, "Hout": 84 },
-  { "date": "Sat, 30/8/25", "hour": "01.00", "Tin": 26, "Hin": 81, "Tout": 25, "Hout": 83 },
-  { "date": "Sat, 30/8/25", "hour": "02.00", "Tin": 25, "Hin": 81, "Tout": 24, "Hout": 82 },
-  { "date": "Sat, 30/8/25", "hour": "03.00", "Tin": 25, "Hin": 80, "Tout": 24, "Hout": 82 },
-  { "date": "Sat, 30/8/25", "hour": "04.00", "Tin": 25, "Hin": 80, "Tout": 24, "Hout": 81 },
-  { "date": "Sat, 30/8/25", "hour": "05.00", "Tin": 25, "Hin": 79, "Tout": 24, "Hout": 81 },
-  { "date": "Sat, 30/8/25", "hour": "06.00", "Tin": 25, "Hin": 79, "Tout": 25, "Hout": 80 },
-  { "date": "Sat, 30/8/25", "hour": "07.00", "Tin": 25, "Hin": 78, "Tout": 26, "Hout": 79 },
-  { "date": "Sat, 30/8/25", "hour": "08.00", "Tin": 26, "Hin": 78, "Tout": 27, "Hout": 78 },
-  { "date": "Sat, 30/8/25", "hour": "09.00", "Tin": 26, "Hin": 77, "Tout": 28, "Hout": 77 },
-  { "date": "Sat, 30/8/25", "hour": "10.00", "Tin": 27, "Hin": 77, "Tout": 29, "Hout": 76 },
-  { "date": "Sat, 30/8/25", "hour": "11.00", "Tin": 27, "Hin": 76, "Tout": 30, "Hout": 75 },
-  { "date": "Sat, 30/8/25", "hour": "12.00", "Tin": 27, "Hin": 76, "Tout": 31, "Hout": 74 },
-  { "date": "Sat, 30/8/25", "hour": "13.00", "Tin": 28, "Hin": 75, "Tout": 32, "Hout": 73 },
-  { "date": "Sat, 30/8/25", "hour": "14.00", "Tin": 28, "Hin": 74, "Tout": 32, "Hout": 72 },
-  { "date": "Sat, 30/8/25", "hour": "15.00", "Tin": 28, "Hin": 74, "Tout": 31, "Hout": 72 },
-  { "date": "Sat, 30/8/25", "hour": "16.00", "Tin": 27, "Hin": 75, "Tout": 30, "Hout": 73 },
-  { "date": "Sat, 30/8/25", "hour": "17.00", "Tin": 27, "Hin": 76, "Tout": 29, "Hout": 74 },
-  { "date": "Sat, 30/8/25", "hour": "18.00", "Tin": 26, "Hin": 80, "Tout": 26, "Hout": 81 },
-  { "date": "Sat, 30/8/25", "hour": "19.00", "Tin": 26, "Hin": 80, "Tout": 26, "Hout": 80 },
-  { "date": "Sat, 30/8/25", "hour": "20.00", "Tin": 25, "Hin": 79, "Tout": 26, "Hout": 79 },
-  { "date": "Sat, 30/8/25", "hour": "21.00", "Tin": 25, "Hin": 79, "Tout": 25, "Hout": 80 },
-  { "date": "Sat, 30/8/25", "hour": "22.00", "Tin": 25, "Hin": 80, "Tout": 25, "Hout": 81 },
-  { "date": "Sat, 30/8/25", "hour": "23.00", "Tin": 25, "Hin": 81, "Tout": 24, "Hout": 82 }
-]
+{
+  "data": [ 
+    { "date": "Sat, 30/8/25", "hour": "00.00", "Tin": 26, "Hin": 82, "Tout": 25, "Hout": 84, "vent" : "open" },
+    { "date": "Sat, 30/8/25", "hour": "01.00", "Tin": 26, "Hin": 81, "Tout": 25, "Hout": 83, "vent" : "close"  },
+    { "date": "Sat, 30/8/25", "hour": "02.00", "Tin": 25, "Hin": 81, "Tout": 24, "Hout": 82, "vent" : "open"  },
+    { "date": "Sat, 30/8/25", "hour": "03.00", "Tin": 25, "Hin": 80, "Tout": 24, "Hout": 82, "vent" : "close"  },
+    { "date": "Sat, 30/8/25", "hour": "04.00", "Tin": 25, "Hin": 80, "Tout": 24, "Hout": 81, "vent" : "open"  },
+    { "date": "Sat, 30/8/25", "hour": "05.00", "Tin": 25, "Hin": 79, "Tout": 24, "Hout": 81, "vent" : "close"  },
+    { "date": "Sat, 30/8/25", "hour": "06.00", "Tin": 25, "Hin": 79, "Tout": 25, "Hout": 80, "vent" : "open"  },
+    { "date": "Sat, 30/8/25", "hour": "07.00", "Tin": 25, "Hin": 78, "Tout": 26, "Hout": 79, "vent" : "close"  },
+    { "date": "Sat, 30/8/25", "hour": "08.00", "Tin": 26, "Hin": 78, "Tout": 27, "Hout": 78, "vent" : "open"  }
+  ],
+
+   "vent": {"status":"open"}
+ 
+}
+
+

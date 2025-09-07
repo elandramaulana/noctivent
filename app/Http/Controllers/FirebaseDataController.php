@@ -7,6 +7,9 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Database;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+
 
 class FirebaseDataController extends Controller
 {
@@ -26,14 +29,13 @@ class FirebaseDataController extends Controller
         }
     }
 
-    /**
-     * Get all dummy data from Firebase RTDB (from root)
-     */
+    
+    //  Get all dummy summary data from Firebase
+     
     public function getDummyData(): JsonResponse
     {
         try {
-            // Data ada di root, bukan di node 'dummy-data'
-            $reference = $this->database->getReference('/');
+            $reference = $this->database->getReference('/data');
             $snapshot = $reference->getSnapshot();
             $data = $snapshot->getValue();
 
@@ -51,135 +53,8 @@ class FirebaseDataController extends Controller
         }
     }
 
-    /**
-     * Get data by specific date (from root)
-     */
-    public function getDataByDate($date): JsonResponse
-    {
-        try {
-            $reference = $this->database->getReference('/');
-            $snapshot = $reference->getSnapshot();
-            $data = $snapshot->getValue();
-
-            if (!$data) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No data found'
-                ], 404);
-            }
-
-            // Filter by date
-            $filteredData = array_filter($data, function ($item) use ($date) {
-                return isset($item['date']) && $item['date'] === $date;
-            });
-
-            return response()->json([
-                'success' => true,
-                'data' => array_values($filteredData),
-                'count' => count($filteredData)
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch data from Firebase',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Add new data to Firebase (to root)
-     */
-    public function addData(): JsonResponse
-    {
-        try {
-            $reference = $this->database->getReference('/');
-
-            // Sample data - ganti dengan data dari request
-            $newData = [
-                'date' => now()->format('D, j/n/y'),
-                'hour' => now()->format('H.i'),
-                'Tin' => rand(20, 30),
-                'Hin' => rand(70, 90),
-                'Tout' => rand(20, 35),
-                'Hout' => rand(65, 85)
-            ];
-
-            // Push data baru ke array
-            $reference->push($newData);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Data added successfully',
-                'data' => $newData
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to add data to Firebase',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Get latest data (last record from root)
-     */
-    public function getLatestData(): JsonResponse
-    {
-        try {
-            $reference = $this->database->getReference('/');
-            $snapshot = $reference->orderByKey()->limitToLast(1)->getSnapshot();
-            $data = $snapshot->getValue();
-
-            if (!$data) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No data found'
-                ], 404);
-            }
-
-            // Get the last item
-            $latestData = end($data);
-
-            return response()->json([
-                'success' => true,
-                'data' => $latestData
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch latest data',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Delete all data (be careful!) from root
-     */
-    public function clearData(): JsonResponse
-    {
-        try {
-            $reference = $this->database->getReference('/');
-            $reference->remove();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'All data cleared successfully'
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to clear data',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Test connection to Firebase
-     */
+    
+    //  Test connection to Firebase
     public function testConnection(): JsonResponse
     {
         try {
@@ -201,9 +76,9 @@ class FirebaseDataController extends Controller
         }
     }
 
-    /**
-     * Debug: See all data structure in Firebase
-     */
+    
+    //  Debug: See all data structure in Firebase
+     
     public function debugAllData(): JsonResponse
     {
         try {
@@ -227,72 +102,9 @@ class FirebaseDataController extends Controller
         }
     }
 
-    /**
-     * Get data from any path
-     */
-    public function getDataFromPath($path): JsonResponse
-    {
-        try {
-            $reference = $this->database->getReference($path);
-            $snapshot = $reference->getSnapshot();
-            $data = $snapshot->getValue();
-
-            return response()->json([
-                'success' => true,
-                'path' => $path,
-                'data' => $data,
-                'data_type' => gettype($data),
-                'is_array' => is_array($data),
-                'count' => is_array($data) ? count($data) : 0
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => "Failed to fetch data from path: {$path}",
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Get data by specific hour
-     */
-    public function getDataByHour($hour): JsonResponse
-    {
-        try {
-            $reference = $this->database->getReference('/');
-            $snapshot = $reference->getSnapshot();
-            $data = $snapshot->getValue();
-
-            if (!$data) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No data found'
-                ], 404);
-            }
-
-            // Filter by hour
-            $filteredData = array_filter($data, function ($item) use ($hour) {
-                return isset($item['hour']) && $item['hour'] === $hour;
-            });
-
-            return response()->json([
-                'success' => true,
-                'data' => array_values($filteredData),
-                'count' => count($filteredData)
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to fetch data from Firebase',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Get temperature summary (min, max, average)
-     */
+    
+    //  Get temperature summary (min, max, average)
+     
     public function getTemperatureSummary(): JsonResponse
     {
         try {
@@ -346,4 +158,107 @@ class FirebaseDataController extends Controller
             ], 500);
         }
     }
+
+    // Update vent status (open/close) 
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'status' => 'required|in:open,close'
+        ]);
+        
+        try {
+            $newStatus = $request->input('status');
+            $currentTime = now();
+            
+            $this->database
+                ->getReference('vent/status')
+                ->set($newStatus);
+
+            $this->database
+                ->getReference('vent/last_update')
+                ->set($currentTime->format('Y-m-d H:i:s'));
+
+            Log::info('Vent status updated to: ' . $newStatus . ' at ' . $currentTime->format('Y-m-d H:i:s'));
+
+            return response()->json([
+                'success' => true,
+                'status' => $newStatus,
+                'message' => 'Status berhasil diubah ke ' . $newStatus,
+                'updated_at' => $currentTime->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating vent status: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Get current vent status 
+    public function getStatus()
+    {
+        try {
+            $currentTime = now();
+            $autoUpdated = false;
+            
+            $todayStart = $currentTime->copy()->setTime(4, 0, 0);
+            $todayEnd = $currentTime->copy()->setTime(6, 0, 0);
+            
+            if ($currentTime->between($todayStart, $todayEnd)) {
+                $lastUpdate = $this->database
+                    ->getReference('vent/last_update')
+                    ->getValue();
+
+                $needsAutoUpdate = false;
+                
+                if ($lastUpdate) {
+                    $lastUpdateTime = \Carbon\Carbon::parse($lastUpdate);
+        
+                    if (!$lastUpdateTime->isToday() || 
+                        !$lastUpdateTime->between($todayStart, $todayEnd)) {
+                        $needsAutoUpdate = true;
+                    }
+                } else {
+                    $needsAutoUpdate = true;
+                }
+
+                if ($needsAutoUpdate) {
+                    $autoStatus = 'open'; 
+                    
+                    $this->database
+                        ->getReference('vent/status')
+                        ->set($autoStatus);
+                        
+                    $this->database
+                        ->getReference('vent/last_update')
+                        ->set($currentTime->format('Y-m-d H:i:s'));
+
+                    Log::info('Auto vent status updated to: ' . $autoStatus . ' at ' . $currentTime->format('Y-m-d H:i:s'));
+                    
+                    $autoUpdated = true;
+                }
+            }
+
+            $reference = $this->database->getReference('vent/status');
+            $status = $reference->getValue();
+
+            return response()->json([
+                'success' => true,
+                'status' => $status ?? 'close',
+                'message' => 'Status berhasil diambil',
+                'auto_updated' => $autoUpdated
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error getting vent status: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
